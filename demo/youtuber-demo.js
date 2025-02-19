@@ -41,6 +41,11 @@ app.post('/test/:id', (req, res) => {
     let {id} = req.params
     id = parseInt(id)
 
+    if(!id.body){
+        return res.json({
+            message : `not body.`
+        })
+    }
     if(db.get(id)){
         res.json({
             message : `해당 ${id}는 이미 입력되어있습니다.`
@@ -54,7 +59,13 @@ app.post('/test/:id', (req, res) => {
 })
 
 app.get("/allSearch", (req, res) => {
-    res.json(Object.fromEntries(db))
+    if(db.size){
+        res.json(Object.fromEntries(db))
+    } else { 
+        res.json({
+        message : `Empty`
+    })
+    }
 })
 
 app.get('/', function (req, res) {
